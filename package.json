@@ -1,0 +1,30 @@
+{
+  "name": "welcome_ministry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebavicentea/welcome_ministry.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sebavicentea/welcome_ministry/issues"
+  },
+  "homepage": "https://github.com/sebavicentea/welcome_ministry#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.1.1",
+    "helmet": "^3.22.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
