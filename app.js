@@ -4,8 +4,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 
-const userRoutes = require('./routes/guests-routes');
-const globalErrHandler = require('./controllers/error-controller');
+const guestRoutes = require('./routes/guests-routes');
+const globalErrHandler = require('./services/error.service');
 const AppError = require('./utils/appError.js');
 const app = express();
 
@@ -29,7 +29,7 @@ app.use(express.json({
 }));
 
 // Routes
-app.use('/api/', userRoutes);
+app.use('/api/', guestRoutes);
 
 // handle undefined Routes
 app.use('*', (req, res, next) => {
