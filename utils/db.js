@@ -2,15 +2,17 @@ const mysql = require('mysql');
 
 const connection = mysql.createPool({
   connectionLimit : 100,
-  host: 'localhost',
-    user: 'root',
-    password: 'fgsvmdlf07MySQL!',
-    database: 'welcome_ministry'
+  host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE
   });
 
 function connectionCheck() {
     return new Promise((resolve,reject) => {
+      
       connection.getConnection(function(err, connection) {
+        console.log()
                if(err) {
                    if(connection) connection.release();
                  reject(err)

@@ -1,8 +1,9 @@
 const dotenv = require('dotenv');
-const db = require('./utils/db')
+
 dotenv.config({
     path: './config/config.env'
 });
+const db = require('./utils/db')
 
 
 // ((err) => {
@@ -15,6 +16,8 @@ db.connectionCheck.then((data) =>{
 }).catch((err) => {
    console.log(err);
 });
+
+
 
 const app = require('./app');
 
