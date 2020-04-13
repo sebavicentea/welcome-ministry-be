@@ -5,10 +5,8 @@ exports.getAll = async () => {
         db.connection.query(`CALL GetChurchGuests(1)`,(error,rows,fields)=>{
             if(!!error) {
                 db.connectionRelease;
-                console.log('error', error);
                 reject(error);
             } else {
-                console.log('rows', rows);
                 db.connectionRelease;
                 resolve(rows[0]);
             }
@@ -21,10 +19,8 @@ exports.getGuestById = async(id) => {
         db.connection.query(`CALL GetGuestById(${id})`,(error,rows,fields)=>{
             if(!!error) {
                 db.connectionRelease;
-                console.log('error', error);
                 reject(error);
             } else {
-                console.log('rows', rows);
                 db.connectionRelease;
                 resolve(rows[0]);
             }
@@ -45,10 +41,8 @@ exports.addNewGuest = async(data) => {
             )`,(error,rows,fields)=>{
             if(!!error) {
                 db.connectionRelease;
-                console.log('error', error);
                 reject(error);
             } else {
-                console.log('rows', rows);
                 db.connectionRelease;
                 resolve(rows[0]);
             }

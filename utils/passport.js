@@ -16,12 +16,13 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user);
     });
 
     // used to deserialize the user
-    passport.deserializeUser(function(id, done) { 
-        db.connection.query(`SELECT * FROM users WHERE id=${id}`,function(err, rows){
+    passport.deserializeUser(function(user, done) { 
+        
+        db.connection.query(`SELECT * FROM users WHERE id=${user.id}`,function(err, rows){
             console.log(rows);
             done(err, rows[0]);
         });
@@ -50,13 +51,13 @@ module.exports = function(passport) {
                 if (err)
                     return done(err);
                 if (rows.length) {
-                    return done(null, false, req.flash('signupMessage', 'That emai is already been use.'));
+                    return done(null, false, emailUsed);
                 } else {
                     // if there is no user with that username
                     // create the user
                     var newUserMysql = {
                         email: email,
-                        password: bcrypt.hashSync(password, null, null),  // use the generateHash function in our user model
+                        password: bcrypt.hashSync(password, null, null),  
                         name: req.body.name,
                         lastname: req.body.lastname,
                         phoneNumber: req.body.phoneNumber,
@@ -91,22 +92,34 @@ module.exports = function(passport) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, email, password, done) { // callback with email and password from our form
-            console.log(req)
             db.connection.query("SELECT * FROM users WHERE email = ?",[email], function(err, rows){
                 if (err)
                     return done(err);
                 if (!rows.length) {
-                    return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+                    return done(null, false, invalidCredentials); 
                 }
-
+                console.log('user found', rows[0])
                 // if the user is found but the password is wrong
                 if (!bcrypt.compareSync(password, rows[0].password))
-                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                    return done(null, false, invalidCredentials); // create the loginMessage and save it to session as flashdata
 
+                   
                 // all is well, return successful user
                 return done(null, rows[0]);
             });
-            db.connection.db.connectionRelease;
+            db.connectionRelease;
         })
     );
 };
+
+const emailUsed =  {
+    code: 'E_EMAIL_ALREADY_USED',
+    message: 'The email is already used',
+    status: 401
+  }
+
+const invalidCredentials = {
+  code: 'E_INVALID_CREDENTIALS',
+  message: 'Invalid credentials',
+  status: 401
+}

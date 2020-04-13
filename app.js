@@ -11,6 +11,8 @@ const AppError = require('./utils/appError.js');
 const app = express();
 const session  = require('express-session');
 const passport= require('passport');
+const auth = require('./utils/auth')
+
 
 require('./utils/passport')(passport); // pass passport for configuration
 
@@ -48,7 +50,7 @@ app.use(passport.session());
 // Routes
 // app.use('/', authRoutes);
 require('./routes/auth-routes')(app,passport);
-app.use('/api/', guestRoutes);
+app.use('/api/',auth.isLoggedIn, guestRoutes);
 
 
 // handle undefined Routes
