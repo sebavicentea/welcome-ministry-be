@@ -21,7 +21,8 @@ router
 
 
 function getGuests(req, res) {
-  guestsService.getGuests().then((data) => {
+  const { user } = req;
+  guestsService.getGuests(user).then((data) => {
     res.send(data);
   }).catch((err) => {
     // mail.mail(err);
@@ -31,7 +32,6 @@ function getGuests(req, res) {
 
 function getGuestById(req, res) {
   const guestId = req.params.id;
-  console.log(guestId);
   // var json_format = iValidator.json_schema(schema.getSchema,userId,"user");
   // if (json_format.valid == false) {
   //   return res.status(422).send(json_format.errorMessage);
@@ -47,14 +47,14 @@ function getGuestById(req, res) {
 
 function addNewGuest(req, res) {
   const guestData = req.body;
-
+  const { user } = req;
   // //Validating the input entity
   //  var json_format = iValidator.json_schema(schema.postSchema, userData, "user");
   //  if (json_format.valid == false) {
   //    return res.status(422).send(json_format.errorMessage);
   //  }
 
-  guestsService.addNewGuest(guestData).then((data) => {
+  guestsService.addNewGuest(guestData, user).then((data) => {
     res.json(data);
   }).catch((err) => {
     //   mail.mail(err);

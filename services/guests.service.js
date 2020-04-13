@@ -1,46 +1,41 @@
-var guestModel = require("../models/guest-model.js");
+const guestModel = require('../models/guest-model.js');
 
 
-var guestsService = {
-    getGuests: getGuests,
-    getGuestById: getGuestById,
-    addNewGuest: addNewGuest
-}
+const guestsService = {
+  getGuests,
+  getGuestById,
+  addNewGuest,
+};
 
-function getGuests() {
-    return new Promise((resolve,reject) => {
-        guestModel.getAll().then((data)=>{
-            resolve(data);
-        }).catch((err) => {
-            reject(err);
-        })
-    })
-   
+function getGuests(user) {
+  return new Promise((resolve, reject) => {
+    guestModel.getAll(user.church_id).then((data) => {
+      resolve(data);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
 }
 
 function getGuestById(id) {
-    return new Promise((resolve,reject) => {
-        guestModel.getGuestById(id).then((data)=>{
-            resolve(data);
-        }).catch((err) => {
-            reject(err);
-        })
-    })
-   
+  return new Promise((resolve, reject) => {
+    guestModel.getGuestById(id).then((data) => {
+      resolve(data);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
 }
 
-function addNewGuest(data) {
-    const id= 1;
-
-    data.churchId= id;
-    console.log(data)
-    return new Promise((resolve,reject) => {
-        guestModel.addNewGuest(data).then((data)=>{
-            resolve(data);
-        }).catch((err) => {
-            reject(err);
-        })
-    }) 
+function addNewGuest(data, user) {
+  const newGuest = { ...data, churchId: user.church_id };
+  return new Promise((resolve, reject) => {
+    guestModel.addNewGuest(newGuest).then((data) => {
+      resolve(data);
+    }).catch((err) => {
+      reject(err);
+    });
+  });
 }
 
 
@@ -52,7 +47,7 @@ function addNewGuest(data) {
 //             reject(err);
 //         })
 //     })
-     
+
 // }
 
 // function deleteUser(id) {
