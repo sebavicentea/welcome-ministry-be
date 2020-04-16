@@ -16,7 +16,7 @@ const auth = require('./utils/auth')
 
 require('./utils/passport')(passport); // pass passport for configuration
 
-const guestRoutes = require('./routes/guests-routes');
+
 
 // Allow Cross-Origin requests
 app.use(cors());
@@ -48,8 +48,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-// app.use('/', authRoutes);
-require('./routes/auth-routes')(app,passport);
+const guestRoutes = require('./routes/guests-routes');
+const authRoutes = require('./routes/auth-routes');
+
+app.use('/api/',authRoutes);
 app.use('/api/',auth.isLoggedIn, guestRoutes);
 
 

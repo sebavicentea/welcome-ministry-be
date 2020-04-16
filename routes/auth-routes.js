@@ -1,5 +1,10 @@
-module.exports = function (app, passport) {
-  app.post('/login', passport.authenticate('local-login'), (req, res) => {
+const express = require('express');
+const router = express.Router();
+const passport= require('passport');
+
+
+
+  router.post('/login', passport.authenticate('local-login'), (req, res) => {
     if (req.body.remember) {
       req.session.cookie.maxAge = 1000 * 60 * 3;
     } else {
@@ -9,14 +14,16 @@ module.exports = function (app, passport) {
     res.send(req.session.passport.user);
   });
 
-  app.post('/signup', passport.authenticate('local-signup'), signup);
+  router.post('/signup', passport.authenticate('local-signup'), signup);
 
-  app.post('/logout', (req, res) => {
+  router.post('/logout', (req, res) => {
     req.logout();
     res.end();
   });
-};
+
 
 function signup(req, res) {
   res.end();
 }
+
+module.exports= router;
