@@ -3,15 +3,17 @@ function isLoggedIn (req, res, next) {
 	// if user is authenticated in the session, carry on
 	if (req.isAuthenticated())
 		return next();
-
+    console.log('Not logged in')
 	// if they aren't redirect them to the home page
-	res.send(notAuthorized);
+	sendNoAuthorized(res);
 }
 
-const notAuthorized = {
-    code: 'E_NOT_AUTHORIZED',
-    message: 'Not authorized',
-    status: 401
+function sendNoAuthorized(res) {
+    res.status(401).send(notAuthorized);
+}
+
+const notAuthorized = {    
+    message: 'You must login'  
   }
 
 module.exports = {

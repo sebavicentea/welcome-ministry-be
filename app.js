@@ -19,7 +19,9 @@ require('./utils/passport')(passport); // pass passport for configuration
 
 
 // Allow Cross-Origin requests
-app.use(cors());
+// app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:4200'}));
+
 
 // Set security HTTP headers
 app.use(helmet());
