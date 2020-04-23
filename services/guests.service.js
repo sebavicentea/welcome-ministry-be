@@ -20,7 +20,8 @@ function getGuests(user) {
 function getGuestById(id) {
   return new Promise((resolve, reject) => {
     guestModel.getGuestById(id).then((data) => {
-      resolve(data);
+      const message= data.length ? data[0] : {};
+      resolve(message);
     }).catch((err) => {
       reject(err);
     });
