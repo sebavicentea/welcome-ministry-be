@@ -58,7 +58,7 @@ function addNewGuest(req, res) {
     res.json(data);
   }).catch((err) => {
     //   mail.mail(err);
-    res.json(err);
+    res.status(500).json(err);
   });
 }
 

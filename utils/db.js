@@ -12,7 +12,6 @@ function connectionCheck() {
     return new Promise((resolve,reject) => {
       
       connection.getConnection(function(err, connection) {
-        console.log()
                if(err) {
                    if(connection) connection.release();
                  reject(err)
@@ -29,8 +28,15 @@ function connectionRelease() {
     });
 }
 
+function parseDate(date) {
+  const newDate= new Date(date);
+
+  return `${newDate.getYear()}-${newDate.getMonth()}-${newDate.getDate()}`
+}
+
 module.exports = {
     connection: connection,
     connectionCheck:connectionCheck(),
-    connectionRelease:connectionRelease()   
+    connectionRelease:connectionRelease(),
+    parseDate: parseDate
 }

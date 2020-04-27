@@ -46,9 +46,23 @@ function getGuestById(id) {
 
 function addNewGuest(data, user) {
   const newGuest = { ...data, churchId: user.church_id };
+  const { prayers }= data
   return new Promise((resolve, reject) => {
-    guestModel.addNewGuest(newGuest).then((data) => {
-      resolve(data);
+    guestModel.addNewGuest(newGuest).then((guestData) => {
+      let message = {};
+      if (guestData.id) {
+        const prayersQuery = prayers.map((prayer) => {
+         guestModel.addGuestPrayers(guestData.id, prayer.description);
+        });
+
+        Promise.all(prayersQuery).then(()=> {
+          resolve({})
+        }).catch(reason => { 
+          reject(reason);
+        });
+      }else {
+        reject('The guest could not be added')
+      }
     }).catch((err) => {
       reject(err);
     });
