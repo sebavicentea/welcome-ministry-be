@@ -42,3 +42,15 @@ exports.addNewGuest = async (data) => new Promise((resolve, reject) => {
     }
   });
 });
+
+exports.getPrayersFromGuest= async (id) => new Promise((resolve, reject) => {
+  db.connection.query(`CALL GetPrayersFromGuest(${id})`, (error, rows, fields) => {
+    if (error) {
+      db.connectionRelease;
+      reject(error);
+    } else {
+      db.connectionRelease;
+      resolve(rows[0]);
+    }
+  });
+});

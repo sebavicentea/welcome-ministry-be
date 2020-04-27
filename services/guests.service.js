@@ -18,14 +18,30 @@ function getGuests(user) {
 }
 
 function getGuestById(id) {
+
+  const guestPromise= guestModel.getGuestById(id);
+  const prayersPromise= guestModel.getPrayersFromGuest(id);
+
   return new Promise((resolve, reject) => {
-    guestModel.getGuestById(id).then((data) => {
-      const message= data.length ? data[0] : {};
+    Promise.all([guestPromise, prayersPromise]).then(([guestData, prayerData])=> {
+      let message = {};
+      if (guestData.length) {
+        message= guestData[0];
+        message.prayers= prayerData;
+      }
       resolve(message);
     }).catch((err) => {
       reject(err);
     });
   });
+  // return new Promise((resolve, reject) => {
+  //   guestModel.getGuestById(id).then((data) => {
+  //     const message= data.length ? data[0] : {};
+  //     resolve(message);
+  //   }).catch((err) => {
+  //     reject(err);
+  //   });
+  // });
 }
 
 function addNewGuest(data, user) {
