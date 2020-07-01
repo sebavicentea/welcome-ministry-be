@@ -30,8 +30,7 @@ function connectionRelease() {
 
 function parseDate(date) {
   const newDate= new Date(date);
-
-  return `${newDate.getYear()}-${newDate.getMonth()}-${newDate.getDate()}`
+  return `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`
 }
 
 module.exports = {

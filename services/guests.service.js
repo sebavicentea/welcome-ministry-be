@@ -52,13 +52,14 @@ function addNewGuest(data, user) {
       let message = {};
       if (guestData.id) {
         const prayersQuery = prayers.map((prayer) => {
+          console.log('Adding ',guestData.id, prayer.description)
          guestModel.addGuestPrayers(guestData.id, prayer.description);
         });
 
         Promise.all(prayersQuery).then(()=> {
           resolve({})
         }).catch(reason => { 
-          reject(reason);
+          reject('Prayer could not be added:', reason);
         });
       }else {
         reject('The guest could not be added')

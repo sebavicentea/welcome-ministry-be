@@ -58,12 +58,15 @@ exports.getPrayersFromGuest= async (id) => new Promise((resolve, reject) => {
 });
 
 exports.addGuestPrayers= async (guestID, description) => new Promise((resolve, reject) => {
-  db.connection.query(`CALL AddPrayerToGuest(${guestID}, ${description})`, (error, rows, fields) => {
+  console.log(`CALL AddPrayerToGuest(${guestID}, ${description})`)
+  db.connection.query(`CALL AddPrayerToGuest(${guestID}, '${description}')`, (error, rows, fields) => {
     if (error) {
       db.connectionRelease;
+      console.log('Errors', error)
       reject(error);
     } else {
       db.connectionRelease;
+      console.log('Not errors', rows)
       resolve(rows[0]);
     }
   });
