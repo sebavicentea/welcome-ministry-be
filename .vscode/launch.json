@@ -5,9 +5,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Attach to port",
+            "port": 9229,
+            "request": "attach",
+            "type": "node",
+            "restart": true
+        },
+        {
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/server.js",
+            "request": "launch",
+            "type": "node"
+        },
+        {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "name": "Debug in Chrome",
             "url": "http://localhost:8080",
             "webRoot": "${workspaceFolder}"
         }

@@ -71,3 +71,54 @@ exports.addGuestPrayers= async (guestID, description) => new Promise((resolve, r
     }
   });
 });
+
+exports.editGuest = async (data) => new Promise((resolve, reject) => {
+  const parsedDate = db.parseDate(data.dateOfVisit);
+  console.log(parsedDate);
+  db.connection.query(`CALL EditGuest(
+            "${data.id}",
+            "${data.name}",
+            "${data.lastname}",
+            ${data.age},
+            "${data.phoneNumber}",
+            "${parsedDate}"
+            )`, (error, rows, fields) => {
+    if (error) {
+      db.connectionRelease;
+      reject(error);
+    } else {
+      db.connectionRelease;
+      resolve(rows[0]);
+    }
+  });
+});
+
+exports.editPrayer= async (prayerId, description) => new Promise((resolve, reject) => {
+  console.log(`CALL AddPrayerToGuest(${prayerId}, ${description})`)
+  db.connection.query(`CALL EditPrayer(${prayerId}, '${description}')`, (error, rows, fields) => {
+    if (error) {
+      db.connectionRelease;
+      console.log('Errors', error)
+      reject(error);
+    } else {
+      db.connectionRelease;
+      console.log('Not errors', rows)
+      resolve(rows[0]);
+    }
+  });
+});
+
+exports.deletePrayer= async (prayerId,) => new Promise((resolve, reject) => {
+  console.log(`CALL DeletePrayer(${prayerId})`)
+  db.connection.query(`CALL DeletePrayer(${prayerId})`, (error, rows, fields) => {
+    if (error) {
+      db.connectionRelease;
+      console.log('Errors', error)
+      reject(error);
+    } else {
+      db.connectionRelease;
+      console.log('Not errors', rows)
+      resolve(rows[0]);
+    }
+  });
+});
