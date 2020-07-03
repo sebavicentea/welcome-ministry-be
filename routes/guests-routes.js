@@ -23,7 +23,8 @@ router
 
 function getGuests(req, res) {
   const { user } = req;
-  guestsService.getGuests(user).then((data) => {
+  
+  guestsService.getGuests(user,req.query.column, req.query.order, req.query.pageSize, req.query.pageNumber).then((data) => {
     res.send(data);
   }).catch((err) => {
     // mail.mail(err);

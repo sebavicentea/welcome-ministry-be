@@ -7,10 +7,11 @@ const guestsService = {
   editGuest,
 };
 
-function getGuests(user) {
+function getGuests(user,column, order, pageSize, pageNumber) {
+  const offset= pageNumber * pageSize;
   return new Promise((resolve, reject) => {
     guestModel
-      .getAll(user.church_id)
+      .getAll(user.church_id, column, order, pageSize, offset)
       .then((data) => {
         resolve(data);
       })

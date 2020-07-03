@@ -1,7 +1,7 @@
 const db = require('../utils/db');
 
-exports.getAll = async (churchId) => new Promise((resolve, reject) => {
-  db.connection.query(`CALL GetChurchGuests(${churchId})`, (error, rows, fields) => {
+exports.getAll = async (churchId, column, order, pageSize, offset) => new Promise((resolve, reject) => {
+  db.connection.query(`CALL GetChurchGuests(${churchId},'${column}',${order},${pageSize},${offset})`, (error, rows, fields) => {
     if (error) {
       db.connectionRelease;
       reject(error);
