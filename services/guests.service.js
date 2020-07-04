@@ -7,12 +7,20 @@ const guestsService = {
   editGuest,
 };
 
-function getGuests(user,column, order, pageSize, pageNumber) {
+function getGuests(user,column, direction, pageSize, pageNumber) {
   const offset= pageNumber * pageSize;
+  const order= direction === 'asc' ? 1 : 0;
   return new Promise((resolve, reject) => {
-    guestModel
-      .getAll(user.church_id, column, order, pageSize, offset)
-      .then((data) => {
+    const allQuery= guestModel
+    .getAll(user.church_id, column, order, pageSize, offset);
+    const countQuery= guestModel.getCount(user.church_id)
+
+    Promise.all([allQuery, countQuery])
+      .then(([allData, count]) => {
+        const data= {
+          data: allData,
+          total: count.total
+        }
         resolve(data);
       })
       .catch((err) => {

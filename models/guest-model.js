@@ -12,6 +12,18 @@ exports.getAll = async (churchId, column, order, pageSize, offset) => new Promis
   });
 });
 
+exports.getCount = async (churchId) => new Promise((resolve, reject) => {
+  db.connection.query(`CALL GetChurchGuestsCount(${churchId})`, (error, rows, fields) => {
+    if (error) {
+      db.connectionRelease;
+      reject(error);
+    } else {
+      db.connectionRelease;
+      resolve(rows[0][0]);
+    }
+  });
+});
+
 exports.getGuestById = async (id) => new Promise((resolve, reject) => {
   db.connection.query(`CALL GetGuestById(${id})`, (error, rows, fields) => {
     if (error) {
